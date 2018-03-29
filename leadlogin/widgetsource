@@ -1,0 +1,290 @@
+(function () {
+
+
+    var widgetID = 45093;
+    var agentHeaderID = null;
+    var clientLevel = 20;
+    if (!widgetID) {
+        alert('Invalid widget ID given.');
+        return false;
+    }
+
+    function widgetMainOut()
+    {
+        var src = (!isNaN(widgetID)) ? 'leadsignupwidget.php?widgetid=45093' : 'leadsignupwidget.php';
+        var widgetElement = idx('script[src$="'+src+'"]');
+
+        // check for a dynamic widget
+        if (!widgetElement.size()) {
+            var widgetSrc = idx('#idxwidgetsrc-45093');
+            if (widgetSrc.size()) {
+                widgetElement = widgetSrc;
+            }
+        }
+
+        var maincID = 'LeadSignup';
+var mainc = idx('<div />').attr({
+  'id':maincID,
+  'class':'LeadSignup'
+});
+widgetElement.after(mainc);
+
+idx('#'+maincID).before('<style type="text/css">#LeadSignup {    clear: both !important;   max-width: 188px !important;   margin: auto !important;   width: 35% !important;   align: left !important;    }   .IDX-LeadSignupInput {   width: 100% !important; }  #IDX-widgetLeadSignupForm {   max-width: 188px !important;   }      label {   font-family: \'Playfair Display\', serif;   font-size: small !important;   font-weight: 200 !important;   text-transform: uppercase;   text-align: left !important;   color: black; }  #IDX-widgetemail, #IDX-widgetlastName, #IDX-widgetfirstName, #IDX-widgetphone {   font-family: \'Playfair Display\', serif;   font-color: grey !important;   font-size: small !important;   text-align: left !important;   font-weight: 200 !important; }  #IDX-widgetsubmit {   font-family: \'Playfair Display\', serif;   margin-top: 10px !important;   text-transform: uppercase !important;   background-color: lightgrey !important;   font-weight: 500 !important;   font-size: small !important;   font-color: white !important;   text-align: center !important; }#LeadSignup {width: 100% !important;padding:0px;}\
+#IDX-widgetLeadSignupForm {width:auto;max-width:200px;margin:0 auto;}\
+#IDX-widgetLeadSignupForm input.IDX-LeadSignupInput {width:100%;max-width:180px;display:block;}\
+#IDX-widgetLeadSignupForm {width:100%;margin:0 auto;}\
+@media all and (max-width:480px) {#IDX-widgetLeadSignupForm {width:auto;max-width:100%; padding:0 10px;}\
+#IDX-widgetLeadSignupForm input.IDX-LeadSignupInput {max-width:100%;display:block;};\}</style>');
+
+idx('#'+maincID).append(
+  idx('<div />').attr({
+    'id':'IDX-widgetLeadSignupHeaderWrapper'
+  }).append(
+    idx('<div />').attr({
+      'id':'IDX-widgetLeadSignupHeader'
+    }).html(
+      '<h3></h3>'
+    )
+  )
+).append(
+		idx('<form />').attr({
+			'id':'IDX-widgetLeadSignupForm',
+			'action':'https://chebil.idxbroker.com/idx/ajax/usersignup.php',
+			'method':'post',
+			'target':'',
+			'name':'LeadSignup'
+		}).append(
+			idx('<input />').attr({
+				'type':'hidden',
+				'name':'action'
+			}).val('addLead')
+			).append(
+			idx('<input />').attr({
+				'type':'hidden',
+				'name':'signupWidget'
+			}).val('true')
+			).append(
+			idx('<input />').attr({
+				'type':'hidden',
+				'name':'contactType'
+			}).val('direct')
+			).append(
+			idx('<input />').attr({
+				'type':'hidden',
+				'name':'contactRoutingAgent'
+			}).val('0')
+			).append(
+	idx('<label />').attr({
+		'id':'IDX-widgetfirstName-label',
+		'class':'IDX-widgetLabel',
+		'for':'IDX-widgetfirstName'
+	}).html(
+		'FIRST'
+	)
+).append(
+	idx('<input />').attr({
+		'id':'IDX-widgetfirstName',
+		'class':'IDX-LeadSignupInput IDX-leadLoginTextInput required ',
+		'type':'text',
+		'name':'firstName',
+	})
+).append(
+	idx('<label />').attr({
+		'id':'IDX-widgetlastName-label',
+		'class':'IDX-widgetLabel',
+		'for':'IDX-widgetlastName'
+	}).html(
+		'LAST'
+	)
+).append(
+	idx('<input />').attr({
+		'id':'IDX-widgetlastName',
+		'class':'IDX-LeadSignupInput IDX-leadLoginTextInput required ',
+		'type':'text',
+		'name':'lastName',
+	})
+).append(
+	idx('<label />').attr({
+		'id':'IDX-widgetemail-label',
+		'class':'IDX-widgetLabel',
+		'for':'IDX-widgetemail'
+	}).html(
+		'EMAIL'
+	)
+).append(
+	idx('<input />').attr({
+		'id':'IDX-widgetemail',
+		'class':'IDX-LeadSignupInput IDX-leadLoginTextInput required ',
+		'type':'text',
+		'name':'email',
+	})
+).append(
+	idx('<label />').attr({
+		'id':'IDX-widgetphone-label',
+		'class':'IDX-widgetLabel',
+		'for':'IDX-widgetphone'
+	}).html(
+		'PHONE'
+	)
+).append(
+	idx('<input />').attr({
+		'id':'IDX-widgetphone',
+		'class':'IDX-LeadSignupInput IDX-leadLoginTextInput',
+		'type':'text',
+		'name':'phone',
+	})
+).append(
+	idx('<input />').attr({
+		'id':'IDX-widgetsubmit',
+		'class':'IDX-LeadSignupInput IDX-leadLoginTextInput',
+		'type':'submit',
+		'name':'submit',
+		'value':'JOIN!'
+	})
+));	idx('#IDX-widgetLeadSignupForm').submit( function(){
+
+		var valid = true;
+		var msg='';
+		var err=0;
+		idx('.error').remove();
+		idx(this).find('.required').each(function(){
+			var errLabel = idx(this).attr('id') + "-label";
+			if( idx(this).val() == "" ) {
+                idx('#' + errLabel).css("color","red");
+                valid = false;
+                err++;
+            } else if (idx(this).prop('type') == 'checkbox') {
+                if (idx(this).prop('checked') === false) {
+                    idx('#'+errLabel).css("color", "red");
+                    valid = false;
+                    err++;
+                }
+            } else {
+                idx('#' + errLabel).css("color","black");
+            }
+            //email regex validate
+			if(idx(this).attr('name')=='email'){
+ 				var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   				 if( re.test(idx(this).val())){
+   				 	idx('#' + errLabel).css("color","black");
+   				 }
+   				 else{
+   				 	idx('#' + errLabel).css("color","red");
+   				 	valid=false;
+   				 	if(idx(this).val()!='')
+   				 		msg+='Invalid Email<br>';
+
+   				 }
+
+			}
+		});
+	if(err==1)
+		errmsg='Field left blank<br>';
+	else
+		errmsg='Fields left blank<br>';
+
+	if (err>0)
+		msg+=errmsg;
+	if(!valid)
+		idx(this).prepend('<span id="IDX-widgetUserFeedback" class="error" style="color: rgb(233, 50, 45);">'+msg+'</span>');
+
+		return valid;
+});
+
+
+        if (agentHeaderID && clientLevel === 20) {
+            idx(function() {
+                var widetSrc = widgetElement.attr('src');
+
+                if (widetSrc.match(/.+quicksearchjs\.php/)) {
+                    var quicksearchForm = idx('#IDX-quicksearchForm-'+widgetID);
+                    quicksearchForm.append(idx('<input>').attr({
+                        type: 'hidden',
+                        name: 'agentHeaderID',
+                        value: agentHeaderID
+                    }));
+                } else if (widetSrc.match(/.+leadloginwidget\.php/)) {
+                    var leadLoginForm = idx('#IDX-widgetLeadLoginForm');
+                    leadLoginForm.append(idx('<input>').attr({
+                        type: 'hidden',
+                        name: 'agentHeaderID',
+                        value: agentHeaderID
+                    }));
+                } else if (widetSrc.match(/.+mapwidgetjs\.php/)) {
+                    idx('#IDX-map-' + widgetID).on('click', 'a[href^="http"]', function (e) {
+                        e.preventDefault();
+                        var href = idx(e.target).attr('href');
+                        if (href.match(/.+\?.+/)) {
+                            href = href + '&agentHeaderID=' + agentHeaderID;
+                        } else {
+                            href = href + '?agentHeaderID=' + agentHeaderID;
+                        }
+                        window.location.href = href;
+                    });
+                } else {
+                    // carousel, showcase, and slideshow
+                    var detailsLinks = idx('div[id*='+widgetID+']').find('a[href*=widgetReferer]');
+                    detailsLinks.each(function(index, element) {
+                        var originalLink = idx(element).attr('href');
+                        idx(element).attr('href', originalLink + '&agentHeaderID=' + agentHeaderID );
+                    });
+                }
+            })
+        }
+
+        // jump to leadsignup
+        idx(function () {
+            if (window.location.hash === '#LeadSignup') {
+                window.location.hash = '';
+                window.location.hash = 'LeadSignup';
+            }
+        });
+    }
+
+    // build a script tag with our version of jquery provided it doesn't already exist
+    if (typeof idx == 'undefined') {
+        /**
+         * fake idx object to let other widgets know the first widget has inserted jqidx.js
+         * wait to jqwidx.js loaded, idx will be the jquery object.
+         */
+        window.idx = {};
+        var jqsrc = '//d1qfrurkpai25r.cloudfront.net/graphical/javascript/jqwidx.js';
+
+        var idxjs = document.createElement('script');
+        idxjs.setAttribute('type','text/javascript');
+        idxjs.setAttribute('id','idx_jquery_include_tag');
+        idxjs.setAttribute('src',jqsrc);
+
+        // lets let IE in or he'll just sit outside and drink and cry
+        if (idxjs.readyState) {
+            idxjs.onreadystatechange = function () {
+                if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                     widgetMainOut();
+                }
+            };
+        }
+        // For gooder browsers
+        else {
+            idxjs.onload = widgetMainOut;
+        }
+        // for loading speed our best bet is to insert our jquery before the first script tag on their site since, at minimum,
+        // this widget is being loaded in a script tag, we know there's at least 1 in the document and we know for sure this
+        // will load before any version of jquery on their site so that we can sequester our version behind noConflict
+        var s1 = document.getElementsByTagName('script')[0];
+        s1.parentNode.insertBefore(idxjs, s1);
+    }
+    // if the idx jquert is loaded then we need to wait until the idx val is defined
+    else {
+        // wait to the first widget's idx jquery object loaded
+        var callWidgetOut = function () {
+            if (window.idx && window.idx.fn) {
+                widgetMainOut();
+            } else {
+                setTimeout(function () {
+                    callWidgetOut();
+                }, 500);
+            }
+        };
+        callWidgetOut();
+    }
+})();
